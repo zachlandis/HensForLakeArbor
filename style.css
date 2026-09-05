@@ -36,6 +36,7 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
+
   color: var(--text);
   background: var(--cream);
   line-height: 1.6;
@@ -58,10 +59,15 @@ img {
   width: min(850px, 90%);
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
+
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(10px);
@@ -71,6 +77,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   min-height: 72px;
 }
 
@@ -78,6 +85,7 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
+
   font-weight: 800;
   text-decoration: none;
 }
@@ -100,27 +108,48 @@ img {
 .nav-button {
   background: var(--green);
   color: white;
+
   padding: 10px 16px;
   border-radius: 999px;
 }
 
+/* =========================
+   HERO
+========================= */
+
 .hero {
   background:
-    radial-gradient(circle at top right, rgba(255,255,255,.12), transparent 30%),
-    linear-gradient(135deg, var(--green-deep), var(--green));
+    radial-gradient(
+      circle at top right,
+      rgba(255,255,255,.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      var(--green-deep),
+      var(--green)
+    );
+
   color: white;
-  padding: 90px 0;
+  padding: 86px 0 52px;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 52px;
+  row-gap: 34px;
+
   align-items: center;
+}
+
+.hero-copy-wrap {
+  max-width: 650px;
 }
 
 .eyebrow {
   margin: 0 0 12px;
+
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -136,14 +165,17 @@ img {
 
 .hero h1 {
   margin: 0 0 24px;
-  max-width: 720px;
-  font-size: clamp(2.7rem, 5vw, 5rem);
+
+  max-width: 640px;
+
+  font-size: clamp(2.7rem, 5vw, 4.6rem);
   line-height: 1.02;
   letter-spacing: -0.04em;
 }
 
 .hero-copy {
   max-width: 650px;
+
   font-size: 1.18rem;
   color: #e9f3ec;
 }
@@ -152,16 +184,23 @@ img {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+
   margin-top: 30px;
 }
 
 .button {
   display: inline-block;
+
   padding: 14px 22px;
+
   border-radius: 10px;
+
   text-decoration: none;
   font-weight: 800;
-  transition: 0.2s ease;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .button:hover {
@@ -183,55 +222,88 @@ img {
   color: var(--green-dark);
 }
 
-.quick-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 28px;
-}
-
-.quick-facts span {
-  border: 1px solid rgba(255,255,255,.25);
-  background: rgba(255,255,255,.09);
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
 .hero-visual {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 .photo-placeholder {
   position: relative;
+
   width: 100%;
-  min-height: 430px;
+  min-height: 500px;
+
   border-radius: 24px;
   overflow: hidden;
+
   background:
-    linear-gradient(rgba(0,0,0,.14), rgba(0,0,0,.28)),
-    url("hero-hens.png") center/cover no-repeat;
-  box-shadow: 0 24px 50px rgba(0,0,0,.25);
+    linear-gradient(
+      rgba(0,0,0,.06),
+      rgba(0,0,0,.18)
+    ),
+    url("hero-hens.png")
+    center
+    center / cover
+    no-repeat;
+
+  box-shadow:
+    0 24px 50px rgba(0,0,0,.25);
 }
 
 .photo-overlay {
   position: absolute;
-  bottom: 24px;
+
   left: 24px;
   right: 24px;
-  padding: 20px;
-  border-radius: 14px;
-  background: rgba(10, 38, 25, .7);
-  backdrop-filter: blur(6px);
+  bottom: 24px;
+
+  padding: 22px;
+
+  border-radius: 16px;
+
+  background: rgba(10, 38, 25, .78);
+  backdrop-filter: blur(8px);
 }
 
 .photo-overlay p {
-  margin: 3px 0;
-  font-size: 1.2rem;
+  margin: 4px 0;
+
+  font-size: 1.12rem;
   font-weight: 800;
 }
+
+.quick-facts {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.hero-facts {
+  grid-column: 1 / -1;
+
+  justify-content: center;
+
+  padding-top: 4px;
+}
+
+.quick-facts span {
+  border: 1px solid rgba(255,255,255,.25);
+
+  background: rgba(255,255,255,.09);
+
+  padding: 9px 14px;
+
+  border-radius: 999px;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* =========================
+   GENERAL SECTIONS
+========================= */
 
 .section {
   padding: 80px 0;
@@ -243,11 +315,13 @@ img {
 
 .section-heading {
   max-width: 720px;
+
   margin-bottom: 36px;
 }
 
 .section-heading h2 {
   margin: 0 0 14px;
+
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.15;
   letter-spacing: -0.03em;
@@ -257,6 +331,10 @@ img {
   color: var(--muted);
 }
 
+/* =========================
+   PROGRESS
+========================= */
+
 .progress-section {
   padding-top: 45px;
   padding-bottom: 35px;
@@ -264,17 +342,21 @@ img {
 
 .progress-card {
   background: white;
+
   border: 1px solid var(--border);
   border-radius: 18px;
+
   padding: 30px;
+
   box-shadow: var(--shadow);
 }
 
 .progress-top {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
   align-items: flex-end;
+
+  gap: 20px;
 }
 
 .progress-top h2 {
@@ -287,8 +369,10 @@ img {
 
 .progress-number strong {
   display: block;
+
   font-size: 2.5rem;
   line-height: 1;
+
   color: var(--green);
 }
 
@@ -298,48 +382,67 @@ img {
 
 .progress-bar {
   margin-top: 24px;
+
   height: 14px;
+
   background: #e4ebe6;
+
   border-radius: 999px;
+
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
+
   background: var(--green);
 }
 
 .progress-note {
   margin-bottom: 0;
+
   color: var(--muted);
 }
+
+/* =========================
+   PROPOSAL CARDS
+========================= */
 
 .grid-two {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+
   gap: 24px;
 }
 
 .card {
   position: relative;
+
   padding: 34px;
+
   border-radius: 18px;
   border: 1px solid var(--border);
 }
 
 .card h3 {
   margin-top: 0;
+
   font-size: 1.4rem;
 }
 
 .card-icon {
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
+
   width: 42px;
   height: 42px;
+
   margin-bottom: 18px;
+
   border-radius: 50%;
+
   font-weight: 900;
 }
 
@@ -363,6 +466,7 @@ img {
 
 .card ul {
   margin-bottom: 0;
+
   padding-left: 20px;
 }
 
@@ -370,17 +474,25 @@ img {
   margin: 10px 0;
 }
 
+/* =========================
+   BENEFITS
+========================= */
+
 .benefits {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+
   gap: 22px;
 }
 
 .benefit-card {
   background: white;
+
   border: 1px solid var(--border);
   border-radius: 16px;
+
   padding: 26px;
+
   box-shadow: var(--shadow);
 }
 
@@ -394,51 +506,76 @@ img {
 
 .benefit-card p {
   margin-bottom: 0;
+
   color: var(--muted);
 }
+
+/* =========================
+   STATS
+========================= */
 
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+
   gap: 18px;
+
   margin: 32px 0;
 }
 
 .stat {
   background: white;
+
   border: 1px solid var(--border);
   border-radius: 16px;
+
   padding: 24px;
+
   text-align: center;
 }
 
 .stat strong {
   display: block;
+
   font-size: 2.4rem;
-  color: var(--green);
   line-height: 1;
+
+  color: var(--green);
 }
 
 .stat span {
   display: block;
+
   margin-top: 8px;
+
   color: var(--muted);
 }
 
 .highlight {
   margin-top: 28px;
+
   padding: 22px 24px;
+
   background: var(--green-light);
+
   border-left: 5px solid var(--green);
   border-radius: 10px;
+
   font-weight: 800;
 }
 
+/* =========================
+   AMENDMENT
+========================= */
+
 .legal-box {
   background: white;
+
   border: 1px solid var(--border);
   border-radius: 16px;
+
   padding: 28px;
+
   box-shadow: var(--shadow);
 }
 
@@ -447,20 +584,28 @@ img {
   color: var(--muted);
 }
 
+/* =========================
+   FAQ
+========================= */
+
 .faq {
   display: grid;
+
   gap: 12px;
 }
 
 details {
   background: white;
+
   border: 1px solid var(--border);
   border-radius: 12px;
+
   padding: 18px 20px;
 }
 
 summary {
   cursor: pointer;
+
   font-weight: 800;
 }
 
@@ -468,38 +613,59 @@ details p {
   color: var(--muted);
 }
 
+/* =========================
+   SUPPORT
+========================= */
+
 .support {
-  background: linear-gradient(135deg, var(--green-deep), var(--green));
+  background:
+    linear-gradient(
+      135deg,
+      var(--green-deep),
+      var(--green)
+    );
+
   color: white;
 }
 
 .support-grid {
   display: grid;
   grid-template-columns: 1fr 420px;
+
   gap: 60px;
+
   align-items: center;
 }
 
 .support h2 {
   margin-top: 0;
+
   font-size: clamp(2.2rem, 4vw, 3.6rem);
   line-height: 1.1;
 }
 
 .contact-card {
   background: rgba(255,255,255,.1);
+
   border: 1px solid rgba(255,255,255,.18);
-  padding: 28px;
   border-radius: 16px;
+
+  padding: 28px;
 }
 
 .contact-card a {
   color: white;
 }
 
+/* =========================
+   FOOTER
+========================= */
+
 footer {
   background: #0c2418;
+
   color: white;
+
   padding: 28px 0;
 }
 
@@ -507,12 +673,17 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 20px;
 }
 
 footer .small {
   color: #bcd0c3;
 }
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 900px) {
 
@@ -529,11 +700,19 @@ footer .small {
   }
 
   .hero {
-    padding: 65px 0;
+    padding: 62px 0 42px;
+  }
+
+  .hero h1 {
+    max-width: 100%;
   }
 
   .photo-placeholder {
-    min-height: 330px;
+    min-height: 380px;
+  }
+
+  .hero-facts {
+    justify-content: flex-start;
   }
 
   .section {
@@ -552,6 +731,51 @@ footer .small {
   .footer-wrap {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+}
+
+@media (max-width: 560px) {
+
+  .container {
+    width: min(92%, 1160px);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 14vw, 3.6rem);
+  }
+
+  .hero-copy {
+    font-size: 1.05rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .photo-placeholder {
+    min-height: 315px;
+  }
+
+  .photo-overlay {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+
+    padding: 16px;
+  }
+
+  .photo-overlay p {
+    font-size: 1rem;
+  }
+
+  .quick-facts span {
+    font-size: 0.82rem;
   }
 
 }
