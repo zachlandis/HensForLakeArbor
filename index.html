@@ -118,21 +118,35 @@
             </div>
 
             <div class="progress-number">
-              <strong>0</strong>
-              <span>/ 220 goal</span>
+              <strong id="signed-count">0</strong>
+              <span>/ <span id="goal-count">220</span> goal</span>
             </div>
 
           </div>
 
 
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 0%;"></div>
+          <div
+            class="progress-bar"
+            role="progressbar"
+            aria-label="Signature progress"
+            aria-valuemin="0"
+            aria-valuemax="220"
+            aria-valuenow="0"
+            id="signature-progress"
+          >
+            <div
+              class="progress-fill"
+              id="progress-fill"
+              style="width: 0%;"
+            ></div>
           </div>
 
 
           <p class="progress-note">
-            At least 189 of Filing 6's 377 lots must approve the amendment.
-            Our campaign goal is 220 signed lots to provide a strong margin.
+            At least <strong id="required-count">189</strong> of Filing 6's
+            <strong id="total-lots">377</strong> lots must approve the amendment.
+            Our campaign goal is <strong>220 signed lots</strong> to provide a
+            strong margin.
           </p>
 
         </div>
@@ -647,6 +661,137 @@
     </div>
 
   </footer>
+
+
+  <!-- LIVE SIGNATURE PROGRESS -->
+  <script>
+    const PROGRESS_API_URL =
+      "https://script.google.com/macros/s/AKfycbxk1mkkdqVjhf5vkBA79d3bDoQDbc29Ms3N-MK50rvbSKlMN1ENO9IZdNwzC5gryMvw/exec";
+
+
+    async function loadSignatureProgress() {
+
+      try {
+
+        const response = await fetch(
+          PROGRESS_API_URL,
+          {
+            cache: "no-store"
+          }
+        );
+
+
+        if (!response.ok) {
+          throw new Error(
+            `Progress API returned ${response.status}`
+          );
+        }
+
+
+        const data = await response.json();
+
+
+        const signed =
+          Number(data.signed) || 0;
+
+        const required =
+          Number(data.required) || 189;
+
+        const goal =
+          Number(data.goal) || 220;
+
+        const totalLots =
+          Number(data.totalLots) || 377;
+
+
+        // Progress bar represents progress toward
+        // the campaign goal of 220.
+        const progressPercent =
+          Math.min(
+            Math.max(
+              (signed / goal) * 100,
+              0
+            ),
+            100
+          );
+
+
+        // --------------------------------------------------------
+        // UPDATE DISPLAY
+        // --------------------------------------------------------
+
+        document.getElementById(
+          "signed-count"
+        ).textContent = signed;
+
+
+        document.getElementById(
+          "goal-count"
+        ).textContent = goal;
+
+
+        document.getElementById(
+          "required-count"
+        ).textContent = required;
+
+
+        document.getElementById(
+          "total-lots"
+        ).textContent = totalLots;
+
+
+        document.getElementById(
+          "progress-fill"
+        ).style.width =
+          `${progressPercent}%`;
+
+
+        // --------------------------------------------------------
+        // ACCESSIBILITY
+        // --------------------------------------------------------
+
+        const progressBar =
+          document.getElementById(
+            "signature-progress"
+          );
+
+
+        progressBar.setAttribute(
+          "aria-valuenow",
+          signed
+        );
+
+
+        progressBar.setAttribute(
+          "aria-valuemax",
+          goal
+        );
+
+
+        progressBar.setAttribute(
+          "aria-valuetext",
+          `${signed} of ${goal} campaign goal signatures collected`
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Unable to load signature progress:",
+          error
+        );
+
+        // Keep the static fallback values visible if the API
+        // is temporarily unavailable.
+
+      }
+
+    }
+
+
+    loadSignatureProgress();
+
+  </script>
 
 </body>
 </html>
