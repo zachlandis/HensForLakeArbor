@@ -665,81 +665,37 @@
 
 <!-- LIVE SIGNATURE PROGRESS -->
 <script>
-  const PROGRESS_API_URL =
-    "https://script.google.com/macros/s/AKfycbxk1mkkdqVjhf5vkBA79d3bDoQDbc29Ms3N-MK50rvbSKlMN1ENO9IZdNwzC5gryMvw/exec";
-
-  const PROGRESS_CACHE_KEY =
-    "lakeArborSignatureProgress";
-
-
   function updateSignatureProgress(data) {
+    const signed = Number(data.signed) || 0;
+    const required = Number(data.required) || 189;
+    const goal = Number(data.goal) || 220;
+    const totalLots = Number(data.totalLots) || 377;
 
-    const signed =
-      Number(data.signed) || 0;
+    const progressPercent = Math.min(
+      Math.max((signed / goal) * 100, 0),
+      100
+    );
 
-    const required =
-      Number(data.required) || 189;
+    document.getElementById("signed-count").textContent = signed;
+    document.getElementById("goal-count").textContent = goal;
+    document.getElementById("required-count").textContent = required;
+    document.getElementById("total-lots").textContent = totalLots;
 
-    const goal =
-      Number(data.goal) || 220;
-
-    const totalLots =
-      Number(data.totalLots) || 377;
-
-
-    const progressPercent =
-      Math.min(
-        Math.max(
-          (signed / goal) * 100,
-          0
-        ),
-        100
-      );
-
-
-    document.getElementById(
-      "signed-count"
-    ).textContent = signed;
-
-
-    document.getElementById(
-      "goal-count"
-    ).textContent = goal;
-
-
-    document.getElementById(
-      "required-count"
-    ).textContent = required;
-
-
-    document.getElementById(
-      "total-lots"
-    ).textContent = totalLots;
-
-
-    document.getElementById(
-      "progress-fill"
-    ).style.width =
+    document.getElementById("progress-fill").style.width =
       `${progressPercent}%`;
 
-
     const progressBar =
-      document.getElementById(
-        "signature-progress"
-      );
-
+      document.getElementById("signature-progress");
 
     progressBar.setAttribute(
       "aria-valuenow",
       signed
     );
 
-
     progressBar.setAttribute(
       "aria-valuemax",
       goal
     );
-
 
     progressBar.setAttribute(
       "aria-valuetext",
@@ -748,125 +704,35 @@
   }
 
 
-  function loadCachedProgress() {
-
+  async function loadSignatureProgress() {
     try {
+      const response = await fetch(
+        `./progress.json?t=${Date.now()}`,
+        {
+          cache: "no-store"
+        }
+      );
 
-      const cached =
-        localStorage.getItem(
-          PROGRESS_CACHE_KEY
+      if (!response.ok) {
+        throw new Error(
+          `Progress request failed: ${response.status}`
         );
-
-
-      if (!cached) {
-        return;
       }
 
-
-      const data =
-        JSON.parse(cached);
-
+      const data = await response.json();
 
       updateSignatureProgress(data);
 
     } catch (error) {
-
-      console.warn(
-        "Unable to load cached signature progress.",
-        error
-      );
-
-    }
-  }
-
-
-  function saveProgressToCache(data) {
-
-    try {
-
-      localStorage.setItem(
-        PROGRESS_CACHE_KEY,
-        JSON.stringify(data)
-      );
-
-    } catch (error) {
-
-      console.warn(
-        "Unable to cache signature progress.",
-        error
-      );
-
-    }
-  }
-
-
-  function loadSignatureProgress() {
-
-    const callbackName =
-      `lakeArborProgress_${Date.now()}`;
-
-
-    const script =
-      document.createElement("script");
-
-
-    window[callbackName] = function(data) {
-
-      try {
-
-        // Update the page with fresh data.
-        updateSignatureProgress(data);
-
-        // Save it so the next page load is instant.
-        saveProgressToCache(data);
-
-      } finally {
-
-        delete window[callbackName];
-
-        script.remove();
-
-      }
-
-    };
-
-
-    script.src =
-      `${PROGRESS_API_URL}` +
-      `?callback=${callbackName}` +
-      `&t=${Date.now()}`;
-
-
-    script.onerror = function() {
-
       console.error(
-        "Unable to refresh signature progress."
+        "Unable to load signature progress.",
+        error
       );
-
-      delete window[callbackName];
-
-      script.remove();
-
-    };
-
-
-    document.body.appendChild(script);
+    }
   }
 
-
-  // ============================================================
-  // 1. DISPLAY LAST KNOWN COUNT IMMEDIATELY
-  // ============================================================
-
-  loadCachedProgress();
-
-
-  // ============================================================
-  // 2. REFRESH FROM GOOGLE IN BACKGROUND
-  // ============================================================
 
   loadSignatureProgress();
-
 </script>
 
 </body>
