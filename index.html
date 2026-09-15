@@ -663,10 +663,13 @@
   </footer>
 
 
-  <!-- LIVE SIGNATURE PROGRESS -->
-  <script>
+<!-- LIVE SIGNATURE PROGRESS -->
+<script>
   const PROGRESS_API_URL =
     "https://script.google.com/macros/s/AKfycbxk1mkkdqVjhf5vkBA79d3bDoQDbc29Ms3N-MK50rvbSKlMN1ENO9IZdNwzC5gryMvw/exec";
+
+  const PROGRESS_CACHE_KEY =
+    "lakeArborSignatureProgress";
 
 
   function updateSignatureProgress(data) {
@@ -742,22 +745,80 @@
       "aria-valuetext",
       `${signed} of ${goal} campaign goal signatures collected`
     );
+  }
 
+
+  function loadCachedProgress() {
+
+    try {
+
+      const cached =
+        localStorage.getItem(
+          PROGRESS_CACHE_KEY
+        );
+
+
+      if (!cached) {
+        return;
+      }
+
+
+      const data =
+        JSON.parse(cached);
+
+
+      updateSignatureProgress(data);
+
+    } catch (error) {
+
+      console.warn(
+        "Unable to load cached signature progress.",
+        error
+      );
+
+    }
+  }
+
+
+  function saveProgressToCache(data) {
+
+    try {
+
+      localStorage.setItem(
+        PROGRESS_CACHE_KEY,
+        JSON.stringify(data)
+      );
+
+    } catch (error) {
+
+      console.warn(
+        "Unable to cache signature progress.",
+        error
+      );
+
+    }
   }
 
 
   function loadSignatureProgress() {
 
-    // Unique callback name for this request.
     const callbackName =
       `lakeArborProgress_${Date.now()}`;
+
+
+    const script =
+      document.createElement("script");
 
 
     window[callbackName] = function(data) {
 
       try {
 
+        // Update the page with fresh data.
         updateSignatureProgress(data);
+
+        // Save it so the next page load is instant.
+        saveProgressToCache(data);
 
       } finally {
 
@@ -770,10 +831,6 @@
     };
 
 
-    const script =
-      document.createElement("script");
-
-
     script.src =
       `${PROGRESS_API_URL}` +
       `?callback=${callbackName}` +
@@ -783,7 +840,7 @@
     script.onerror = function() {
 
       console.error(
-        "Unable to load signature progress."
+        "Unable to refresh signature progress."
       );
 
       delete window[callbackName];
@@ -794,11 +851,22 @@
 
 
     document.body.appendChild(script);
-
   }
 
 
+  // ============================================================
+  // 1. DISPLAY LAST KNOWN COUNT IMMEDIATELY
+  // ============================================================
+
+  loadCachedProgress();
+
+
+  // ============================================================
+  // 2. REFRESH FROM GOOGLE IN BACKGROUND
+  // ============================================================
+
   loadSignatureProgress();
+
 </script>
 
 </body>
