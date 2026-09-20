@@ -765,6 +765,11 @@ details p {
   color: white;
 }
 
+/* Keep the white signing button's text visible */
+.contact-card .button-light {
+  color: var(--green-dark);
+}
+
 
 /* =========================
    FOOTER
