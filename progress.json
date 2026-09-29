@@ -1,11 +1,11 @@
 {
-  "signed": 140,
+  "signed": 141,
   "required": 189,
   "goal": 220,
   "totalLots": 377,
-  "remainingToRequired": 49,
-  "remainingToGoal": 80,
-  "percentToRequired": 74.1,
-  "percentToGoal": 63.6,
-  "updatedAt": "2026-09-27T14:59:23.475Z"
+  "remainingToRequired": 48,
+  "remainingToGoal": 79,
+  "percentToRequired": 74.6,
+  "percentToGoal": 64.1,
+  "updatedAt": "2026-09-29T12:13:45.129Z"
 }
