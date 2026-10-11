@@ -188,7 +188,7 @@
             role="progressbar"
             aria-label="Signature progress"
             aria-valuemin="0"
-            aria-valuemax="220"
+            aria-valuemax="190"
             aria-valuenow="0"
             id="signature-progress"
           >
@@ -203,8 +203,7 @@
           <p class="progress-note">
             At least <strong id="required-count">189</strong> of Filing 6's
             <strong id="total-lots">377</strong> lots must approve the amendment.
-            Our campaign goal is <strong>200 signed lots</strong> to provide a
-            strong margin.
+            Our campaign goal is <strong>190 signed lots</strong>.
           </p>
 
         </div>
@@ -378,8 +377,8 @@
           </div>
 
           <div class="stat">
-            <strong>220</strong>
-            <span>campaign goal</span>
+            <strong>190</strong>
+             <span>campaign goal</span>
           </div>
 
         </div>
@@ -681,8 +680,7 @@
 
             <p>
               Filing 6 contains 377 lots. Approval from a majority requires
-              at least 189 lots. The campaign goal is 220 signed lots to provide
-              a margin above the minimum requirement.
+              at least 189 lots. The campaign goal is 190 signed lots.
             </p>
 
           </details>
@@ -818,7 +816,7 @@
   function updateSignatureProgress(data) {
     const signed = Number(data.signed) || 0;
     const required = Number(data.required) || 189;
-    const goal = Number(data.goal) || 220;
+    const goal = Number(data.goal) || 190;
     const totalLots = Number(data.totalLots) || 377;
 
     const progressPercent = Math.min(
